@@ -115,7 +115,7 @@ async def info() -> dict:
         "api_version": app.version,
         "model_name": metadata.get("model_name"),
         "model_version": metadata.get("model_version"),
-        "model_created_at": metadata.get("created_at"),
+        "created_at": metadata.get("created_at"),
         "sklearn_version": metadata.get("sklearn_version"),
         "dataset_sha256": metadata.get("dataset_sha256"),
         "metrics_holdout": metadata.get("metrics_holdout"),
