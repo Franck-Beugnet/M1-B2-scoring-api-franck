@@ -68,3 +68,22 @@ def test_info_contains_required_non_null_keys(client: TestClient) -> None:
     for key in required_keys:
         assert key in data
         assert data[key] is not None
+
+
+def test_x_request_id_header_in_response(client: TestClient) -> None:
+    """Bonus: X-Request-ID header is present in all responses.
+
+    - If provided in request, same ID is returned.
+    - If missing, auto-generated UUID is returned.
+    """
+    # Case 1: provided request ID
+    response = client.get("/health", headers={"X-Request-ID": "my-custom-id"})
+    assert response.status_code == 200
+    assert response.headers["X-Request-ID"] == "my-custom-id"
+
+    # Case 2: auto-generated request ID
+    response = client.get("/health")
+    assert response.status_code == 200
+    assert "X-Request-ID" in response.headers
+    # Ensure it looks like a UUID (standard UUID is 36 chars including hyphens)
+    assert len(response.headers["X-Request-ID"]) == 36
